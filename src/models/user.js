@@ -16,6 +16,10 @@ const UserSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    academyId: {
+      type: Number,
+      required: true,
+    },
   },
   { timestamps: true }
 );

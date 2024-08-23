@@ -4,14 +4,22 @@ const generateToken = require("../utils/generateToken");
 // @desc    Register a new user
 // @route   POST /api/users/signup
 // @access  Public
-const getUser = (req, res) => {
-  res.status(201).json({
-    message: "Api working",
-  });
+const getUserProfile = async (req, res) => {
+  const user = await User.findById(req.user._id);
+
+  if (user) {
+    res.json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+    });
+  } else {
+    res.status(404).json({ message: "User not found" });
+  }
 };
 
 const registerUser = async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, academyId } = req.body;
 
   const userExists = await User.findOne({ email });
 
@@ -23,6 +31,7 @@ const registerUser = async (req, res) => {
     name,
     email,
     password,
+    academyId,
   });
 
   if (user) {
@@ -30,6 +39,7 @@ const registerUser = async (req, res) => {
       _id: user._id,
       name: user.name,
       email: user.email,
+      academyId: user.academyId,
       token: generateToken(user._id),
     });
   } else {
@@ -60,5 +70,5 @@ const authUser = async (req, res) => {
 module.exports = {
   registerUser,
   authUser,
-  getUser,
+  getUserProfile,
 };

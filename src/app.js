@@ -11,6 +11,10 @@ connectDB();
 
 app.use(cors());
 
+app.get("/",(req,res)=>{
+  res.json("hello")
+})
+
 // Middleware
 app.use(express.json());
 
